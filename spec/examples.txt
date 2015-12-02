@@ -1,0 +1,10 @@
+example_id                          | status | run_time        |
+----------------------------------- | ------ | --------------- |
+./spec/freckle_api_spec.rb[1:1:1:1] | passed | 0.00323 seconds |
+./spec/freckle_api_spec.rb[1:1:1:2] | passed | 0.00438 seconds |
+./spec/freckle_api_spec.rb[1:1:1:3] | passed | 0.0038 seconds  |
+./spec/freckle_api_spec.rb[1:1:1:4] | passed | 0.00384 seconds |
+./spec/freckle_api_spec.rb[1:1:1:5] | passed | 0.00405 seconds |
+./spec/freckle_api_spec.rb[1:1:1:6] | passed | 0.00756 seconds |
+./spec/freckle_api_spec.rb[1:1:1:7] | passed | 0.0055 seconds  |
+./spec/freckle_api_spec.rb[1:2:1]   | passed | 0.03176 seconds |
