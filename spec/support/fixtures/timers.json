@@ -1,0 +1,31 @@
+[
+  {
+    "id": 123456,
+    "state": "running",
+    "seconds": 180,
+    "formatted_time": "00:03:00",
+    "date": "2013-07-09",
+    "description": "freckle work",
+    "user": {
+      "id": 5538,
+      "email": "john.test@test.com",
+      "first_name": "John",
+      "last_name": "Test",
+      "profile_image_url": "https://api.letsfreckle.com/images/avatars/0000/0001/avatar.jpg",
+      "url": "https://api.letsfreckle.com/v2/users/5538"
+    },
+    "project": {
+      "id": 37396,
+      "name": "Gear GmbH",
+      "billing_increment": 10,
+      "enabled": true,
+      "billable": true,
+      "color": "#ff9898",
+      "url": "https://api.letsfreckle.com/v2/projects/37396"
+    },
+    "url": "https://api.letsfreckle.com/v2/projects/37396/timer",
+    "start_url": "https://api.letsfreckle.com/v2/projects/37396/timer/start",
+    "pause_url": "https://api.letsfreckle.com/v2/projects/37396/timer/pause",
+    "log_url": "https://api.letsfreckle.com/v2/projects/37396/timer/log"
+  }
+]

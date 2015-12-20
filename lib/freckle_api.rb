@@ -7,6 +7,7 @@ require 'freckle_api/group.rb'
 require 'freckle_api/invoice.rb'
 require 'freckle_api/user.rb'
 require 'freckle_api/project.rb'
+require 'freckle_api/timer.rb'
 
 class FreckleApi
   BASE_URI = URI('https://api.letsfreckle.com/v2').freeze
@@ -37,6 +38,12 @@ class FreckleApi
     get('projects').map do |project|
       Project.new(project)
     end
+  end
+
+  def timer(project)
+    project_id = project.respond_to?(:id) ? project.id : project
+
+    Timer.new(get 'projects', project_id, 'timer')
   end
 
   private

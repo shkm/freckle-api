@@ -102,4 +102,61 @@ RSpec.describe FreckleApi do
       expect(projects.last).to be_a FreckleApi::Project
     end
   end
+
+  describe '#timer' do
+    let(:timer) { api.timer(37_396) }
+
+    it 'returns the timer' do
+      expect(timer).to be_a FreckleApi::Timer
+    end
+
+    it 'contains the expected simple values' do
+      expect(timer.id).to eq 123_456
+      expect(timer.state).to eq :running
+      expect(timer.seconds).to eq 180
+      expect(timer.description).to eq 'freckle work'
+      expect(timer.url).to eq "#{base_uri}/projects/37396/timer"
+      expect(timer.start_url).to eq "#{base_uri}/projects/37396/timer/start"
+      expect(timer.pause_url).to eq "#{base_uri}/projects/37396/timer/pause"
+      expect(timer.log_url).to eq "#{base_uri}/projects/37396/timer/log"
+    end
+
+    it 'contains the coerced date' do
+      expect(timer.date).to eq Date.new(2013, 7, 9)
+    end
+
+    it 'contains the expected user' do
+      user = timer.user
+
+      expect(user).to be_a FreckleApi::User
+      expect(user.id).to eq 5_538
+      expect(user.email).to eq 'john.test@test.com'
+      expect(user.first_name).to eq 'John'
+      expect(user.last_name).to eq 'Test'
+      expect(user.profile_image_url).to eq(
+        'https://api.letsfreckle.com/images/avatars/0000/0001/avatar.jpg')
+      expect(user.url).to eq "#{base_uri}/users/5538"
+    end
+
+    it 'contains the expected project' do
+      project = timer.project
+
+      expect(project).to be_a FreckleApi::Project
+      expect(project.id).to eq 37_396
+      expect(project.name).to eq 'Gear GmbH'
+      expect(project.billing_increment).to eq 10
+      expect(project.enabled).to eq true
+      expect(project.billable).to eq true
+      expect(project.color).to eq '#ff9898'
+      expect(project.url).to eq "#{base_uri}/projects/37396"
+    end
+
+    context 'when passing an actual project' do
+      let(:timer) { api.timer(api.project(37_396)) }
+
+      it 'returns the timer' do
+        expect(timer).to be_a FreckleApi::Timer
+      end
+    end
+  end
 end

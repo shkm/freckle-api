@@ -12,8 +12,14 @@ class FakeFreckle < Sinatra::Base
         json_response 200, 'projects'
       end
 
-      get '/:id' do
-        json_response 200, 'projects/37396'
+      namespace '/:id' do
+        get do
+          json_response 200, 'projects/37396'
+        end
+
+        get '/timer' do
+          json_response 200, 'projects/37396/timer'
+        end
       end
     end
   end
