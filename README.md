@@ -1,7 +1,9 @@
-[![Code Climate](https://codeclimate.com/github/shkm/freckle-api/badges/gpa.svg)](https://codeclimate.com/github/shkm/freckle-api)  
-
 # freckle-api
 Freckle API client for v2.
+
+[![Gem Version](https://badge.fury.io/rb/freckle-api.svg)](https://badge.fury.io/rb/freckle-api)
+[![Code Climate](https://codeclimate.com/github/shkm/freckle-api/badges/gpa.svg)](https://codeclimate.com/github/shkm/freckle-api)
+[![Dependency Status](https://gemnasium.com/shkm/freckle-api.svg)](https://gemnasium.com/shkm/freckle-api)
 
 This is still in development and not ready to use yet.
 
