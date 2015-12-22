@@ -1,3 +1,5 @@
+[![Code Climate](https://codeclimate.com/github/shkm/freckle-api/badges/gpa.svg)](https://codeclimate.com/github/shkm/freckle-api)  
+
 # freckle-api
 Freckle API client for v2.
 
