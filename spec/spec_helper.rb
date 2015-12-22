@@ -1,11 +1,11 @@
+require 'codeclimate-test-reporter'
+CodeClimate::TestReporter.start
+
 require 'rspec'
 require 'webmock/rspec'
 require 'pry'
 require 'pry-byebug'
 require 'support/fake_freckle.rb'
-require 'codeclimate-test-reporter'
-
-CodeClimate::TestReporter.start
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
