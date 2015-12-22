@@ -7,4 +7,8 @@ class FreckleApi::Model < Hash
   include Hashie::Extensions::IndifferentAccess
 
   include FreckleApi::Coercions
+
+  def self.list(*records)
+    [*records].map { |record| new(record) }
+  end
 end

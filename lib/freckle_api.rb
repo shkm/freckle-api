@@ -22,15 +22,17 @@ class FreckleApi
   end
 
   def projects
-    request(:get, uri('projects')).map do |project|
-      Project.new(project)
-    end
+    Project.list(request :get, uri('projects'))
   end
 
   def timer(project)
     project_id = project.respond_to?(:id) ? project.id : project
 
     Timer.new(request :get, uri('projects', project_id, 'timer'))
+  end
+
+  def timers
+    Timer.list(request :get, uri('timers'))
   end
 
   private
