@@ -20,5 +20,4 @@ Gem::Specification.new do |s|
   s.add_development_dependency('sinatra')
   s.add_development_dependency('sinatra-contrib')
   s.add_runtime_dependency('hashie')
-  s.add_runtime_dependency('httparty')
 end
