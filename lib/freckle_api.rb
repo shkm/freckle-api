@@ -17,25 +17,12 @@ class FreckleApi
     @api_key = api_key
   end
 
-  def get(*path)
-    uri = URI.parse [BASE_URI, *path].join('/')
-
-    https = Net::HTTP.new(uri.host, uri.port)
-    https.use_ssl = true
-
-    request = Net::HTTP::Get.new(uri.path, headers)
-
-    response = https.request(request)
-
-    JSON.parse(response.body)
-  end
-
   def project(id)
-    Project.new(get 'projects', id)
+    Project.new(request :get, uri('projects', id))
   end
 
   def projects
-    get('projects').map do |project|
+    request(:get, uri('projects')).map do |project|
       Project.new(project)
     end
   end
@@ -43,10 +30,26 @@ class FreckleApi
   def timer(project)
     project_id = project.respond_to?(:id) ? project.id : project
 
-    Timer.new(get 'projects', project_id, 'timer')
+    Timer.new(request :get, uri('projects', project_id, 'timer'))
   end
 
   private
+
+  def request(method, uri)
+    https = Net::HTTP.new(uri.host, uri.port).tap { |h| h.use_ssl = true }
+
+    response = https.request(http_class(method).new(uri.path, headers))
+
+    JSON.parse(response.body)
+  end
+
+  def http_class(method)
+    "Net::HTTP::#{method.to_s.capitalize}".constantize
+  end
+
+  def uri(*path)
+    URI.parse [BASE_URI, *path].join('/')
+  end
 
   def headers
     {
