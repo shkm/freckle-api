@@ -80,4 +80,8 @@ RSpec.configure do |config|
     # Thanks https://robots.thoughtbot.com/how-to-stub-external-services-in-tests
     stub_request(:any, %r{api.letsfreckle.com:443/v2}).to_rack(FakeFreckle)
   end
+
+  config.after(:suite) do
+    WebMock.disable_net_connect!(allow: 'codeclimate.com')
+  end
 end
