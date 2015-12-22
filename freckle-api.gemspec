@@ -13,11 +13,11 @@ Gem::Specification.new do |s|
   s.files = Dir['LICENSE', 'README.md', 'lib/**/*.rb']
   s.test_files = Dir['spec/**/*.rb']
 
-  s.add_development_dependency('rake')
-  s.add_development_dependency('rspec')
-  s.add_development_dependency('webmock')
-  s.add_development_dependency('pry-byebug')
-  s.add_development_dependency('sinatra')
-  s.add_development_dependency('sinatra-contrib')
-  s.add_runtime_dependency('hashie')
+  s.add_development_dependency('rake', '~> 10.1')
+  s.add_development_dependency('rspec', '~> 3.4')
+  s.add_development_dependency('webmock', '~> 1.22')
+  s.add_development_dependency('pry-byebug', '~> 3.3')
+  s.add_development_dependency('sinatra', '~> 1.4')
+  s.add_development_dependency('sinatra-contrib', '~> 1.4')
+  s.add_runtime_dependency('hashie', '~> 3.4')
 end
