@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rspec', '~> 3.4')
   s.add_development_dependency('webmock', '~> 1.22')
   s.add_development_dependency('pry-byebug', '~> 3.3')
+  s.add_development_dependency('codeclimate-test-reporter', '>= 0.4')
   s.add_development_dependency('sinatra', '~> 1.4')
   s.add_development_dependency('sinatra-contrib', '~> 1.4')
   s.add_runtime_dependency('hashie', '~> 3.4')
