@@ -13,44 +13,56 @@ class FreckleApi
   BASE_URI = URI('https://api.letsfreckle.com/v2').freeze
   USER_AGENT = 'freckle-api' # TODO: make this flexible?
 
+  def self.uri(*path)
+    URI.parse [BASE_URI, *[path]].join('/')
+  end
+
   def initialize(api_key)
     @api_key = api_key
   end
 
   def project(id)
-    Project.new(request :get, uri('projects', id))
+    Project.new(request :get, self.class.uri('projects', id))
   end
 
   def projects
-    Project.list(request :get, uri('projects'))
+    Project.list(request :get, self.class.uri('projects'))
   end
 
+  # TODO: consider whether it's necessary to find a timer by ITS id,
+  # not that of the project.
   def timer(project)
     project_id = project.respond_to?(:id) ? project.id : project
 
-    Timer.new(request :get, uri('projects', project_id, 'timer'))
+    Timer.new(request :get, self.class.uri('projects', project_id, 'timer'))
   end
 
   def timers
-    Timer.list(request :get, uri('timers'))
+    Timer.list(request :get, self.class.uri('timers'))
+  end
+
+  def request(method, uri, parse: true, params: {})
+    request = build_request(method, uri, params)
+    response = send_request(request, uri)
+
+    parse ? JSON.parse(response.body) : response
   end
 
   private
 
-  def request(method, uri)
+  def build_request(method, uri, params: {})
+    http_class(method).new(uri.path, headers).tap do |request|
+      request.set_form_data(params)
+    end
+  end
+
+  def send_request(request, uri)
     https = Net::HTTP.new(uri.host, uri.port).tap { |h| h.use_ssl = true }
-
-    response = https.request(http_class(method).new(uri.path, headers))
-
-    JSON.parse(response.body)
+    https.request(request)
   end
 
   def http_class(method)
-    "Net::HTTP::#{method.to_s.capitalize}".constantize
-  end
-
-  def uri(*path)
-    URI.parse [BASE_URI, *path].join('/')
+    Object.const_get "Net::HTTP::#{method.to_s.capitalize}"
   end
 
   def headers

@@ -1,2 +1,4 @@
-class FreckleApi::Import < FreckleApi::Model
+class FreckleApi
+  class Import < FreckleApi::Model
+  end
 end

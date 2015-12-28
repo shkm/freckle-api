@@ -1,2 +1,4 @@
-class FreckleApi::Group < FreckleApi::Model
+class FreckleApi
+  class Group < FreckleApi::Model
+  end
 end

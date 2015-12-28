@@ -5,7 +5,10 @@ require 'rspec'
 require 'webmock/rspec'
 require 'pry'
 require 'pry-byebug'
-require 'support/fake_freckle.rb'
+
+require 'freckle_api'
+require 'support/shared_contexts/api.rb'
+require 'support/api_helper.rb'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -76,10 +79,7 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 
-  config.before(:each) do
-    # Thanks https://robots.thoughtbot.com/how-to-stub-external-services-in-tests
-    stub_request(:any, %r{api.letsfreckle.com:443/v2}).to_rack(FakeFreckle)
-  end
+  config.include ApiHelper
 
   config.after(:suite) do
     WebMock.disable_net_connect!(allow: 'codeclimate.com')

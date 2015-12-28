@@ -1,26 +1,26 @@
-require 'spec_helper'
-require 'freckle_api'
-
 RSpec.describe FreckleApi do
-  let(:base_uri) { 'https://api.letsfreckle.com/v2' }
-  let(:api) { FreckleApi.new('valid_api_key') }
+  include_context 'api'
 
   describe '#project' do
     context 'given a valid project id' do
-      let(:project) { api.project(37_396) }
+      let(:project) { api.project(existing_project_id) }
+
+      before do
+        stub_get_project(existing_project_id)
+      end
 
       it 'returns the project' do
         expect(project).to be_a FreckleApi::Project
       end
 
       it 'contains the expected simple values' do
-        expect(project.id).to eq 37_396
+        expect(project.id).to eq existing_project_id
         expect(project.name).to eq 'Gear GmbH'
         expect(project.billing_increment).to eq 10
         expect(project.enabled).to eq true
         expect(project.billable).to eq true
         expect(project.color).to eq '#ff9898'
-        expect(project.url).to eq "#{base_uri}/projects/37396"
+        expect(project.url).to eq "#{base_uri}/projects/#{existing_project_id}"
         expect(project.minutes).to eq 180
         expect(project.billable_minutes).to eq 120
         expect(project.unbillable_minutes).to eq 60
@@ -28,9 +28,9 @@ RSpec.describe FreckleApi do
         expect(project.remaining_minutes).to eq 630
         expect(project.budget_minutes).to eq 750
         expect(project.entries).to eq 0
-        expect(project.entries_url).to eq "#{base_uri}/projects/37396/entries"
+        expect(project.entries_url).to eq "#{base_uri}/projects/#{existing_project_id}/entries"
         expect(project.expenses).to eq 0
-        expect(project.expenses_url).to eq "#{base_uri}/projects/37396/expenses"
+        expect(project.expenses_url).to eq "#{base_uri}/projects/#{existing_project_id}/expenses"
       end
 
       it 'contains the correct coerced timestamps' do
@@ -80,13 +80,13 @@ RSpec.describe FreckleApi do
         participant = project.participants.last
 
         expect(participant).to be_a FreckleApi::User
-        expect(participant.id).to eq 5538
+        expect(participant.id).to eq existing_user_id
         expect(participant.email).to eq 'john.test@test.com'
         expect(participant.first_name).to eq 'John'
         expect(participant.last_name).to eq 'Test'
         expect(participant.profile_image_url).to eq(
           'https://api.letsfreckle.com/images/avatars/0000/0001/avatar.jpg')
-        expect(participant.url).to eq "#{base_uri}/users/5538"
+        expect(participant.url).to eq "#{base_uri}/users/#{existing_user_id}"
       end
     end
   end
@@ -96,6 +96,10 @@ RSpec.describe FreckleApi do
     # of the individual project above.
     let(:projects) { api.projects }
 
+    before do
+      stub_get_projects
+    end
+
     it 'returns a collection of projects' do
       expect(projects).to respond_to(:count)
       expect(projects.count).to eq 1
@@ -104,7 +108,12 @@ RSpec.describe FreckleApi do
   end
 
   describe '#timer' do
-    let(:timer) { api.timer(37_396) }
+    let(:timer) { api.timer(existing_project_id) }
+
+    before do
+      stub_get_project(existing_project_id)
+      stub_get_timer(existing_project_id)
+    end
 
     it 'returns the timer' do
       expect(timer).to be_a FreckleApi::Timer
@@ -115,10 +124,10 @@ RSpec.describe FreckleApi do
       expect(timer.state).to eq :running
       expect(timer.seconds).to eq 180
       expect(timer.description).to eq 'freckle work'
-      expect(timer.url).to eq "#{base_uri}/projects/37396/timer"
-      expect(timer.start_url).to eq "#{base_uri}/projects/37396/timer/start"
-      expect(timer.pause_url).to eq "#{base_uri}/projects/37396/timer/pause"
-      expect(timer.log_url).to eq "#{base_uri}/projects/37396/timer/log"
+      expect(timer.url).to eq "#{base_uri}/projects/#{existing_project_id}/timer"
+      expect(timer.start_url).to eq "#{base_uri}/projects/#{existing_project_id}/timer/start"
+      expect(timer.pause_url).to eq "#{base_uri}/projects/#{existing_project_id}/timer/pause"
+      expect(timer.log_url).to eq "#{base_uri}/projects/#{existing_project_id}/timer/log"
     end
 
     it 'contains the coerced date' do
@@ -129,30 +138,30 @@ RSpec.describe FreckleApi do
       user = timer.user
 
       expect(user).to be_a FreckleApi::User
-      expect(user.id).to eq 5_538
+      expect(user.id).to eq existing_user_id
       expect(user.email).to eq 'john.test@test.com'
       expect(user.first_name).to eq 'John'
       expect(user.last_name).to eq 'Test'
       expect(user.profile_image_url).to eq(
         'https://api.letsfreckle.com/images/avatars/0000/0001/avatar.jpg')
-      expect(user.url).to eq "#{base_uri}/users/5538"
+      expect(user.url).to eq "#{base_uri}/users/#{existing_user_id}"
     end
 
     it 'contains the expected project' do
       project = timer.project
 
       expect(project).to be_a FreckleApi::Project
-      expect(project.id).to eq 37_396
+      expect(project.id).to eq existing_project_id
       expect(project.name).to eq 'Gear GmbH'
       expect(project.billing_increment).to eq 10
       expect(project.enabled).to eq true
       expect(project.billable).to eq true
       expect(project.color).to eq '#ff9898'
-      expect(project.url).to eq "#{base_uri}/projects/37396"
+      expect(project.url).to eq "#{base_uri}/projects/#{existing_project_id}"
     end
 
     context 'when passing an actual project' do
-      let(:timer) { api.timer(api.project(37_396)) }
+      let(:timer) { api.timer(api.project(existing_project_id)) }
 
       it 'returns the timer' do
         expect(timer).to be_a FreckleApi::Timer
