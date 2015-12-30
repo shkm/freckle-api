@@ -1,4 +1,5 @@
 require 'net/http'
+require 'json'
 
 require 'freckle_api/coercions.rb'
 require 'freckle_api/model.rb'
