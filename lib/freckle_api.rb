@@ -27,26 +27,26 @@ class FreckleApi
   end
 
   def projects
-    Project.list(request :get, self.class.uri('projects'))
+    request(:get, self.class.uri('projects'), coerce_to: Project)
   end
 
   # TODO: consider whether it's necessary to find a timer by ITS id,
   # not that of the project.
   def timer(project)
-    project_id = project.respond_to?(:id) ? project.id : project
+    project_id = project&.id || project
 
     Timer.new(request :get, self.class.uri('projects', project_id, 'timer'))
   end
 
   def timers
-    Timer.list(request :get, self.class.uri('timers'))
+    request(:get, self.class.uri('timers'), coerce_to: Timer)
   end
 
-  def request(method, uri, parse: true, params: {})
+  def request(method, uri, parse: true, coerce_to: Hash, params: {})
     request = build_request(method, uri, params)
     response = send_request(request, uri)
 
-    parse ? JSON.parse(response.body) : response
+    parse ? JSON.parse(response.body, object_class: coerce_to) : response
   end
 
   private
