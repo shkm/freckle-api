@@ -1,4 +1,8 @@
 # freckle-api
+
+**Note** Back at work and terribly busy after the Christmas holidays, so I
+won't be working on this for a week or two, but it's certainly not abandoned!
+
 Freckle API client for v2.
 
 [![Gem Version](https://badge.fury.io/rb/freckle-api.svg)](https://badge.fury.io/rb/freckle-api)
