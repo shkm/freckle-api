@@ -14,8 +14,14 @@ class FreckleApi
       update api.request(:put, timer_uri(:pause))
     end
 
-    def log!(api, entry_date: nil, minutes: nil, description: nil)
-      response = api.request(:put, timer_uri(:log), parse: false)
+    def log!(api, entry_date: nil, minutes: nil, description: '')
+      puts description
+      response = api.request(:put,
+                             timer_uri(:log),
+                             parse: false,
+                             body: {
+                               description: description
+                             })
 
       response.code.to_i == 204
     end

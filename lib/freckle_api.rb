@@ -42,8 +42,8 @@ class FreckleApi
     request(:get, self.class.uri('timers'), coerce_to: Timer)
   end
 
-  def request(method, uri, parse: true, coerce_to: Hash, params: {})
-    request = build_request(method, uri, params)
+  def request(method, uri, parse: true, coerce_to: Hash, params: {}, body: {})
+    request = build_request(method, uri, params: params, body: body)
     response = send_request(request, uri)
 
     parse ? JSON.parse(response.body, object_class: coerce_to) : response
@@ -51,9 +51,10 @@ class FreckleApi
 
   private
 
-  def build_request(method, uri, params: {})
+  def build_request(method, uri, params: {}, body: {})
     http_class(method).new(uri.path, headers).tap do |request|
       request.set_form_data(params)
+      request.body = body.to_json if request.request_body_permitted?
     end
   end
 
