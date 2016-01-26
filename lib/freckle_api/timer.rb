@@ -15,7 +15,6 @@ class FreckleApi
     end
 
     def log!(api, entry_date: nil, minutes: nil, description: '')
-      puts description
       response = api.request(:put,
                              timer_uri(:log),
                              parse: false,
