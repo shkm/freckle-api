@@ -10,8 +10,4 @@ Freckle API client for v2.
 
 This is still in a pretty early stage; I'm implementing features as and when I need them.
 
-I'm using freckle-api in [FreCLI](https://github.com/shkm/frecli).
-
-I intend to implement timing functonality only to begin with,
-adding more management features later on. In order to get it to a
-usable/useful state, the following needs to be done:
+I'm using freckle-api in [FreCLI](https://github.com/shkm/frecli) — a CLI Freckle client.
