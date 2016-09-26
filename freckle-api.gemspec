@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.email = 'jamie@schembri.me'
   s.homepage = 'http://github.com/shkm/freckle-api'
   s.platform = Gem::Platform::RUBY
-  s.required_ruby_version = '2.3.0'
+  s.required_ruby_version = '>= 2.1.0'
 
   s.files = Dir['LICENSE', 'README.md', 'lib/**/*.rb']
   s.test_files = Dir['spec/**/*.rb']
